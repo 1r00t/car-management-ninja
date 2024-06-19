@@ -8,3 +8,6 @@ class Car(models.Model):
     year = models.SmallIntegerField(validators=[MinValueValidator(1886)])
     color = models.CharField(max_length=100)
     price = models.FloatField()
+
+    def __str__(self):
+        return f"{self.make} {self.model} ({self.year})"
