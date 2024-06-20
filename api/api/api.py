@@ -1,5 +1,7 @@
 from django.shortcuts import get_object_or_404
 from ninja import NinjaAPI
+from ninja.pagination import paginate
+
 from .models import Car
 from .schemas import CarIn, CarOut, CarPatch
 
@@ -13,6 +15,7 @@ def create_car(request, payload: CarIn):
 
 
 @api.get("/", response=list[CarOut])
+@paginate
 def get_cars(request):
     cars = Car.objects.all()
     return cars
