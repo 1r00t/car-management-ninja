@@ -2,9 +2,9 @@ from django.shortcuts import get_object_or_404
 from ninja import NinjaAPI
 from ninja.pagination import paginate
 
-from .models import Car
-from .schemas import CarIn, CarOut, CarPatch
-from .utils.throttling import throttle_view
+from api.models import Car
+from api.schemas import CarIn, CarOut, CarPatch
+from api.utils.throttling import throttle_view
 
 api = NinjaAPI()
 
