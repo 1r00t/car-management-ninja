@@ -4,11 +4,13 @@ from ninja.pagination import paginate
 
 from .models import Car
 from .schemas import CarIn, CarOut, CarPatch
+from .utils.throttling import throttle_view
 
 api = NinjaAPI()
 
 
 @api.post("/", response={201: CarOut})
+@throttle_view
 def create_car(request, payload: CarIn):
     car = Car.objects.create(**payload.dict())
     return car
@@ -16,18 +18,21 @@ def create_car(request, payload: CarIn):
 
 @api.get("/", response=list[CarOut])
 @paginate
+@throttle_view
 def get_cars(request):
     cars = Car.objects.all()
     return cars
 
 
 @api.get("/{car_id}", response=CarOut)
+@throttle_view
 def get_car(request, car_id: int):
     car = get_object_or_404(Car, id=car_id)
     return car
 
 
 @api.put("/{car_id}", response=CarOut)
+@throttle_view
 def update_car(request, car_id: int, payload: CarIn):
     car = get_object_or_404(Car, id=car_id)
     for attr, value in payload.dict().items():
@@ -37,6 +42,7 @@ def update_car(request, car_id: int, payload: CarIn):
 
 
 @api.patch("/{car_id}", response=CarOut)
+@throttle_view
 def patch_car(request, car_id: int, payload: CarPatch):
     car = get_object_or_404(Car, id=car_id)
     for attr, value in payload.dict(exclude_unset=True).items():
@@ -46,6 +52,7 @@ def patch_car(request, car_id: int, payload: CarPatch):
 
 
 @api.delete("/{car_id}")
+@throttle_view
 def delete_car(request, car_id: int):
     car = get_object_or_404(Car, id=car_id)
     car.delete()
