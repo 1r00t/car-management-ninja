@@ -1,8 +1,9 @@
-from rest_framework.throttling import AnonRateThrottle, UserRateThrottle
-from rest_framework.views import APIView
-from rest_framework.exceptions import Throttled
-from ninja.errors import HttpError
 from functools import wraps
+
+from rest_framework.throttling import AnonRateThrottle, UserRateThrottle
+from rest_framework.exceptions import Throttled
+
+from ninja.errors import HttpError
 
 
 def throttle_request(request, view):
