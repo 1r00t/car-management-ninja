@@ -10,10 +10,5 @@ class Car(models.Model):
     color = models.CharField(max_length=100)
     price = models.FloatField()
 
-    def save(self, *args, **kwargs):
-        if self.year < 1886:
-            raise ValidationError("Cars were not invented yet!")
-        super().save(*args, **kwargs)
-
     def __str__(self):
         return f"{self.make} {self.model} ({self.year})"

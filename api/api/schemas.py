@@ -1,5 +1,7 @@
 from typing import Optional
 from ninja import Schema
+from pydantic import field_validator
+from ninja.errors import ValidationError
 
 
 class BaseCar(Schema):
@@ -8,6 +10,12 @@ class BaseCar(Schema):
     year: int
     color: str
     price: float
+
+    @field_validator("year", mode="before")
+    def year_must_be_greater_than_1886(cls, value):
+        if int(value) < 1886:
+            raise ValidationError("Cars were not invented yet!")
+        return value
 
 
 class CarIn(BaseCar):

@@ -14,13 +14,7 @@ api = NinjaAPI(version="1.0")
 @api.post("/", response={201: CarOut})
 @throttle_view
 def create_car(request, payload: CarIn):
-    car = Car(**payload.dict())
-
-    # make sure the car is valid
-    try:
-        car.save()  # custom save method will raise ValidationError if year < 1886
-    except ValidationError as e:
-        raise NinjaValidationError(e.message)
+    car = Car.objects.create(**payload.dict())
     return car
 
 
