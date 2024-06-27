@@ -66,6 +66,7 @@ The project uses environment variables to manage settings for development and pr
    DEBUG=True
    ALLOWED_HOSTS=localhost,127.0.0.1
    DATABASE_URL=sqlite:///db.sqlite3
+   NINJA_SKIP_REGISTRY=yes  # https://github.com/vitalik/django-ninja/issues/229
    ```
 
 2. **Create a `.env.prod` file for production:**
