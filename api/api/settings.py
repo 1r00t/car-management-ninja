@@ -18,7 +18,7 @@ import environ
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Set up environment variables from .env file for production or development
-# Export DJANGO_ENV_FILE to set either .env.production or .env.development
+# Export DJANGO_ENV_FILE to set either .env.prod or .env.dev
 env = environ.Env(DEBUG=(bool, False))
 ENV_FILE = os.getenv("DJANGO_ENV_FILE", ".env")
 env_file = BASE_DIR / ENV_FILE
@@ -30,13 +30,17 @@ if os.path.exists(env_file):
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
+
 # SECURITY WARNING: keep the secret key used in production secret!
+
 SECRET_KEY = env("SECRET_KEY")
 
+
 # SECURITY WARNING: don't run with debug turned on in production!
+
 DEBUG = env("DEBUG")
 
-ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["localhost", "127.0.0.1"])
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
 
 
 # Application definition
@@ -51,6 +55,9 @@ INSTALLED_APPS = [
     "api",
     "rest_framework",
 ]
+
+
+# Django REST Framework settings
 
 REST_FRAMEWORK = {
     "DEFAULT_THROTTLE_CLASSES": [
@@ -91,8 +98,7 @@ TEMPLATES = [
 WSGI_APPLICATION = "api.wsgi.application"
 
 
-# Database
-# https://docs.djangoproject.com/en/5.0/ref/settings/#databases
+# Database configuration
 
 DATABASES = {"default": env.db()}
 
@@ -119,9 +125,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "de"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Europe/Berlin"
 
 USE_I18N = True
 
@@ -133,7 +139,26 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+# Logging configuration
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "level": "DEBUG",
+            "class": "logging.StreamHandler",
+        },
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": "DEBUG",
+    },
+}
